@@ -1,0 +1,6 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-cn'
+theme = 'gallery'
+title = '高祖兵山水画廊'
+[params]
+	defaultTheme = 'default'
