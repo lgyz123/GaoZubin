@@ -1,31 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>山水 on 高祖兵山水画廊</title>
-    <link>http://localhost:1313/categories/%E5%B1%B1%E6%B0%B4/</link>
-    <description>Recent content in 山水 on 高祖兵山水画廊</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sun, 23 Nov 2025 21:10:00 +0900</lastBuildDate><atom:link href="http://localhost:1313/categories/%E5%B1%B1%E6%B0%B4/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>雾中山水</title>
-      <link>http://localhost:1313/albums/%E9%9B%BE%E4%B8%AD%E5%B1%B1%E6%B0%B4/</link>
-      <pubDate>Sun, 23 Nov 2025 21:10:00 +0900</pubDate>
-      <guid>http://localhost:1313/albums/%E9%9B%BE%E4%B8%AD%E5%B1%B1%E6%B0%B4/</guid><description>&lt;no value&gt;</description></item>
-    <item>
-      <title>简笔山水</title>
-      <link>http://localhost:1313/albums/%E7%AE%80%E7%AC%94%E5%B1%B1%E6%B0%B4/</link>
-      <pubDate>Sun, 23 Nov 2025 20:56:00 +0900</pubDate>
-      <guid>http://localhost:1313/albums/%E7%AE%80%E7%AC%94%E5%B1%B1%E6%B0%B4/</guid><description>小画怡情</description></item>
-    <item>
-      <title>水墨山水・秋</title>
-      <link>http://localhost:1313/shanshui-qiu/</link>
-      <pubDate>Tue, 12 Aug 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/shanshui-qiu/</guid>
-        <media:content url="http://localhost:1313/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG" type="image/jpeg"/>
-        <description>
-          &lt;img src=&quot;http://localhost:1313/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG&quot; /&gt;
-          &lt;p&gt;以淡墨、留白为主的山水小品，适合客厅、书房悬挂。&lt;/p&gt;
-        </description></item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>山水 on 高祖兵山水画廊</title><link>https://gaozubin.cn/categories/%E5%B1%B1%E6%B0%B4/</link><description>Recent content in 山水 on 高祖兵山水画廊</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 23 Nov 2025 21:10:00 +0900</lastBuildDate><atom:link href="https://gaozubin.cn/categories/%E5%B1%B1%E6%B0%B4/index.xml" rel="self" type="application/rss+xml"/><item><title>雾中山水</title><link>https://gaozubin.cn/albums/%E9%9B%BE%E4%B8%AD%E5%B1%B1%E6%B0%B4/</link><pubDate>Sun, 23 Nov 2025 21:10:00 +0900</pubDate><guid>https://gaozubin.cn/albums/%E9%9B%BE%E4%B8%AD%E5%B1%B1%E6%B0%B4/</guid><description>&lt;no value&gt;</description></item><item><title>简笔山水</title><link>https://gaozubin.cn/albums/%E7%AE%80%E7%AC%94%E5%B1%B1%E6%B0%B4/</link><pubDate>Sun, 23 Nov 2025 20:56:00 +0900</pubDate><guid>https://gaozubin.cn/albums/%E7%AE%80%E7%AC%94%E5%B1%B1%E6%B0%B4/</guid><description>小画怡情</description></item><item><title>水墨山水・秋</title><link>https://gaozubin.cn/shanshui-qiu/</link><pubDate>Tue, 12 Aug 2025 00:00:00 +0000</pubDate><guid>https://gaozubin.cn/shanshui-qiu/</guid><media:content url="https://gaozubin.cn/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG" type="image/jpeg"/><description>
+&lt;img src="https://gaozubin.cn/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG" /&gt;
+&lt;p&gt;以淡墨、留白为主的山水小品，适合客厅、书房悬挂。&lt;/p&gt;</description></item></channel></rss>
