@@ -1,0 +1,28 @@
+{{ define "main" }}
+<main class="albums">
+  <div class="albums-header">
+    <h1>{{ .Site.Title }}</h1>
+    <a class="admin-link" href="/admin/" target="_blank" rel="noopener">
+      管理者登录
+    </a>
+  </div>
+
+  <div class="album-grid">
+    {{ range $album := where .Site.RegularPages "Section" "albums" }}
+      {{ $covers := where $album.Params.photos "cover" true }}
+      {{ $cover := cond (gt (len $covers) 0) (index $covers 0) nil }}
+
+      <article class="album-card">
+        <a href="{{ $album.RelPermalink }}">
+          {{ with $cover }}
+            <img src="{{ .image | relURL }}" alt="{{ .title }}" />
+          {{ end }}
+          <h2>{{ $album.Title }}</h2>
+          <p>{{ $album.Params.description }}</p>
+        </a>
+      </article>
+    {{ end }}
+  </div>
+</main>
+{{ end }}
+

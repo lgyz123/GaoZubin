@@ -1,0 +1,182 @@
+/* 整体背景：可以是纯色，也可以叠加背景图 */
+body {
+  background-color: #f6f1e7; /* 米黄宣纸色 */
+}
+
+/* 若要背景图，先把 bg.jpg 放到 static/images/bg.jpg */
+body {
+  background-image: url("/images/bg.png");
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* 标题颜色 */
+.site-title,
+h1, h2, h3, h4 {
+  color: #4a2b18; /* 深棕色墨线感 */
+}
+
+/* 相册标题卡片底色稍微淡一点 */
+.gallery-album {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+/* 页脚/导航用稍微沉一点的颜色 */
+.site-footer {
+  background-color: rgba(250, 245, 235, 0.9);
+}
+
+/* 整体内容区域宽度 */
+main.albums,
+main.album {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* 首页 & /albums 画册列表 */
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.album-card {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.album-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+}
+
+.album-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.album-card h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.album-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* 单个画册里的图片网格 */
+.album .photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.album .photo-item img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  border: 6px solid rgba(70, 40, 20, 0.25); /* 类似画框 */
+  background: #f5eee3;
+}
+
+.album .photo-item figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.album .photo-item figcaption strong {
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.albums-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.albums-header h1 {
+  margin: 0;
+}
+
+.admin-link {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(80, 60, 40, 0.4);
+  text-decoration: none;
+  color: #443322;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  transition: background 0.15s ease-out, transform 0.15s ease-out;
+}
+
+.admin-link:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+}
+
+/* 画册标题 & 描述 */
+main.album h1 {
+  text-align: center;
+  font-size: 2rem;
+  letter-spacing: 0.15em;
+  margin: 0 0 0.5rem;
+}
+
+main.album .album-desc {
+  text-align: center;
+  font-size: 0.98rem;
+  color: #555;
+  margin: 0 0 2rem;
+}
+
+/* 已经有的 photo-grid 基础上，再稍微修一下 */
+.album .photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.album .photo-item img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  border: 6px solid rgba(70, 40, 20, 0.25);
+  background: #f5eee3;
+}
+
+.album .photo-item figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.album .photo-item figcaption strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-weight: 600;
+}
+
+.album .photo-item .photo-desc {
+  font-size: 0.88rem;
+  color: #555;
+}
+

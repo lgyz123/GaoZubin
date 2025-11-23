@@ -1,6 +1,7 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://gaozubin.cn/'
 languageCode = 'zh-cn'
 theme = 'gallery'
 title = '高祖兵山水画廊'
 [params]
 	defaultTheme = 'default'
+	customCSS = ["css/custom.css"]

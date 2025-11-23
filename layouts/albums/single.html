@@ -1,0 +1,23 @@
+{{ define "main" }}
+<main class="album">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.description }}
+    <p class="album-desc">{{ . }}</p>
+  {{ end }}
+
+  <div class="photo-grid">
+    {{ range .Params.photos }}
+      <figure class="photo-item">
+        <img src="{{ .image | relURL }}" alt="{{ .title }}">
+        {{ if or .title .desc }}
+          <figcaption>
+            {{ if .title }}<strong>{{ .title }}</strong>{{ end }}
+            {{ if .desc }}<div class="photo-desc">{{ .desc }}</div>{{ end }}
+          </figcaption>
+        {{ end }}
+      </figure>
+    {{ end }}
+  </div>
+</main>
+{{ end }}
+
