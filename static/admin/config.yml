@@ -5,7 +5,6 @@ backend:
   base_url: https://sveltia-cms-auth.guanyizhaoian.workers.dev
 
 site_url: https://gaozubin.cn
-local_backend: true
 media_folder: "static/uploads"   # 图片真实存放位置
 public_folder: "/uploads"        # 前端访问路径
 
