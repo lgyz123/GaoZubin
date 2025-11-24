@@ -1,0 +1,29 @@
+<footer class="site-footer">
+  {{ partialCached "social-icons.html" . }}
+
+  <section class="footer-inner">
+    <p class="footer-copy">
+      {{ with .Site.Copyright }}
+        {{ . }}
+      {{ else }}
+        © {{ now.Year }} 高祖兵 · 山水画廊
+      {{ end }}
+    </p>
+
+    <p class="footer-note">
+      部分作品接受咨询与收藏，详情请见「联系」页面。
+    </p>
+
+    <p class="footer-menu">
+      {{ range .Site.Menus.footer }}
+        <a {{ with .Params.rel -}}rel="{{ . }}"{{ end -}} href="{{ .URL }}">
+          {{ .Name }}
+        </a>
+      {{ end }}
+    </p>
+
+    <p class="footer-admin">
+      <a href="/admin/">管理者登录</a>
+    </p>
+  </section>
+</footer>
