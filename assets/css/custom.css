@@ -193,14 +193,14 @@ main.home {
 }
 
 .hero-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.5rem;
+  max-width: 900px;
+  margin: 2rem auto 3rem;
+  text-align: center;
+  display: block;
 }
 
 .hero-text {
-  flex: 1 1 260px;
+  margin-bottom: 1rem;
 }
 
 .hero-text h1 {
@@ -215,15 +215,16 @@ main.home {
 }
 
 .hero-image-wrap {
-  flex: 0 0 320px;
+  margin: 0 auto;
 }
 
 .hero-image-wrap img {
-  width: 100%;
-  border-radius: 12px;
   display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 12px;
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
-  object-fit: cover;
 }
 
 @media (max-width: 768px) {
