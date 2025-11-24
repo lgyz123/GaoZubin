@@ -5,3 +5,7 @@ title = '高祖兵山水画廊'
 [params]
 	defaultTheme = 'default'
 	customCSS = ["css/custom.css"]
+
+[params.social]
+  douyin = "https://www.douyin.com/user/48740764510"
+
