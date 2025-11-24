@@ -1,47 +1,49 @@
 {{ define "main" }}
-<main class="home">
+  <div class="home">
+    <!-- 顶部 Hero 区 -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h1>高祖兵 · 山水画廊</h1>
+          <p class="hero-subtitle">
+            记录古风山水画作，便于欣赏与整理。部分作品支持咨询与收藏。
+          </p>
+        </div>
 
-  <!-- 顶部 Hero 区 -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-text">
-        <h1>高祖兵 · 山水画廊</h1>
-        <p class="hero-subtitle">
-          记录古风山水画作，便于欣赏与整理。部分作品支持咨询与收藏。
-        </p>
+        <!-- 代表作品封面 -->
+        <div class="hero-image-wrap">
+          <img src="/uploads/shanshui-qiu-01.jpg" alt="山水画廊代表作品">
+        </div>
       </div>
+    </section>
 
-      <!-- 如果你有一张代表作品，可以在这里固定写路径 -->
-      <div class="hero-image-wrap">
-        <img src="/uploads/shanshui-qiu-01.jpg" alt="山水画廊代表作品">
+    <!-- 相册网格 -->
+    <section class="albums-section">
+      <h2>画册一览</h2>
+
+      <div class="album-grid">
+        {{ range where .Site.RegularPages "Section" "albums" }}
+          {{ $covers := where .Params.photos "cover" true }}
+          {{ $cover := cond (gt (len $covers) 0) (index $covers 0) nil }}
+
+          <article class="album-card">
+            <a href="{{ .RelPermalink }}">
+              {{ with $cover }}
+                <img src="{{ .image | relURL }}" alt="{{ .title }}">
+              {{ end }}
+              <h3>{{ .Title }}</h3>
+              {{ with .Params.description }}
+                <p>{{ . }}</p>
+              {{ end }}
+            </a>
+          </article>
+        {{ end }}
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+{{ end }}
 
-  <!-- 相册网格 -->
-  <section class="albums-section">
-    <h2>画册一览</h2>
-
-    <div class="album-grid">
-      {{ range where .Site.RegularPages "Section" "albums" }}
-        {{ $covers := where .Params.photos "cover" true }}
-        {{ $cover := cond (gt (len $covers) 0) (index $covers 0) nil }}
-
-        <article class="album-card">
-          <a href="{{ .RelPermalink }}">
-            {{ with $cover }}
-              <img src="{{ .image | relURL }}" alt="{{ .title }}">
-            {{ end }}
-            <h3>{{ .Title }}</h3>
-            {{ with .Params.description }}
-              <p>{{ . }}</p>
-            {{ end }}
-          </a>
-        </article>
-      {{ end }}
-    </div>
-  </section>
-    <!-- 页脚 -->
+{{ define "footer" }}
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-left">
@@ -52,12 +54,6 @@
       </div>
 
       <div class="footer-center">
-        <!-- 如果以后有「联系」「关于」等页面，可以在这里加链接 -->
-        <!--
-        <a href="/contact/">联系</a>
-        <span>·</span>
-        <a href="/about/">关于画家</a>
-        -->
         <p class="footer-note">
           部分作品接受咨询与收藏，详情可通过抖音或留言联系。
         </p>
@@ -80,6 +76,4 @@
       </div>
     </div>
   </footer>
-
-</main>
 {{ end }}
