@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>画作投稿 · 高祖斌画廊</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 16px 40px;
+        background: #f5f5f5;
+      }
+      h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      p.note {
+        font-size: 0.9rem;
+        color: #555;
+        line-height: 1.6;
+      }
+      form {
+        margin-top: 1.5rem;
+        padding: 16px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      }
+      label {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      input[type="text"],
+      input[type="email"],
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px 10px;
+        margin-bottom: 0.9rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 0.9rem;
+      }
+      textarea {
+        min-height: 90px;
+        resize: vertical;
+      }
+      .hint {
+        font-size: 0.8rem;
+        color: #777;
+        margin-top: -0.4rem;
+        margin-bottom: 0.8rem;
+      }
+      button[type="submit"] {
+        display: inline-block;
+        padding: 8px 18px;
+        border-radius: 4px;
+        border: none;
+        background: #333;
+        color: #fff;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+      button[type="submit"]:hover {
+        filter: brightness(1.05);
+      }
+      .success-message {
+        display: none;
+        margin-top: 1rem;
+        padding: 10px 12px;
+        border-radius: 4px;
+        background: #e6ffed;
+        border: 1px solid #b7eb8f;
+        color: #135200;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>画作投稿</h1>
+    <p class="note">
+      这个页面只用来<strong>提交新画作信息</strong>。提交后不会自动公开，需要管理员整理后发布到画廊。<br>
+      请尽量填写清楚标题、简介和图片链接。
+    </p>
+
+    <form id="submit-form" method="POST" action="https://formspree.io/f/xzzqdvor">
+      <!-- 这个字段用来标记来源，方便你在邮箱里过滤 -->
+      <input type="hidden" name="_subject" value="【画廊投稿】新画作" />
+
+      <label for="title">画作标题（必填）</label>
+      <input id="title" type="text" name="title" required />
+
+      <label for="description">画作简介 / 说明（必填）</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <div class="hint">
+        例如：创作时间、尺幅、纸张 / 颜料、想表达的意境等等。
+      </div>
+
+      <label for="images">图片链接（必填）</label>
+      <textarea id="images" name="images" required></textarea>
+      <div class="hint">
+        可以填写一行一个链接，例如图床、网盘分享链接等。管理员收到后会下载整理。<br>
+        如：<br>
+        https://example.com/image1.jpg<br>
+        https://example.com/image2.jpg
+      </div>
+
+      <label for="contact">联系信息（选填）</label>
+      <input id="contact" type="text" name="contact" placeholder="邮箱 / 微信 / 电话都可以" />
+
+      <label for="note">其他备注（选填）</label>
+      <textarea id="note" name="note"></textarea>
+
+      <button type="submit">提交</button>
+
+      <div id="success" class="success-message">
+        已提交成功。管理员整理后，如适合，会发布到画廊页面。
+      </div>
+    </form>
+
+    <script>
+      // 提交后不跳转，显示个“成功”提示，体验稍微像那么回事
+      const form = document.getElementById('submit-form');
+      const successBox = document.getElementById('success');
+
+      form.addEventListener('submit', function (e) {
+        // 如果你用的是传统表单提交（不跨域），可以删掉下面这一整个 JS 块
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+          method: 'POST',
+          body: formData
+        }).then(function (res) {
+          if (res.ok) {
+            successBox.style.display = 'block';
+            form.reset();
+          } else {
+            alert('提交失败，请稍后再试。');
+          }
+        }).catch(function () {
+          alert('网络错误，提交未成功。');
+        });
+      });
+    </script>
+  </body>
+</html>
