@@ -1,0 +1,150 @@
+<style>
+  .submit-form-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px 4px 40px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .submit-form-container h2 {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .submit-form-container label {
+    display: block;
+    margin: 12px 0 4px;
+    font-weight: bold;
+  }
+  .submit-form-container input[type="text"],
+  .submit-form-container textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+  }
+  .submit-form-container textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+  #dropzone {
+    border: 2px dashed #bbb;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    background: #fafafa;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-bottom: 8px;
+  }
+  #file-list {
+    margin-left: 18px;
+    font-size: 0.9rem;
+  }
+  .submit-success {
+    display: none;
+    background: #e6ffed;
+    border: 1px solid #b7eb8f;
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 6px;
+  }
+  button.submit-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #333;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+
+<div class="submit-form-container">
+  <h2>画作投稿</h2>
+
+  <form id="submit-form" method="POST" action="https://formspree.io/f/xzzqdvor" enctype="multipart/form-data">
+
+    <label>画作标题（必填）</label>
+    <input type="text" name="title" required>
+
+    <label>画作简介 / 说明（必填）</label>
+    <textarea name="description" required></textarea>
+
+    <label>画作图片（可拖拽上传，支持多张）</label>
+    <div id="dropzone">将图片拖到这里，或点击选择文件</div>
+    <input id="file-input" type="file" name="images" accept="image/*" multiple style="display:none;">
+    <ul id="file-list"></ul>
+
+    <label>联系信息（选填）</label>
+    <input type="text" name="contact">
+
+    <label>其他备注（选填）</label>
+    <textarea name="note"></textarea>
+
+    <button class="submit-btn" type="submit">提交</button>
+
+    <div id="success" class="submit-success">提交成功！管理员会审核并整理发布。</div>
+
+  </form>
+</div>
+
+<script>
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('file-input');
+  const fileList = document.getElementById('file-list');
+  const form = document.getElementById('submit-form');
+  const successBox = document.getElementById('success');
+
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.style.background = '#eef7ff';
+    dropzone.style.borderColor = '#66a3ff';
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.style.background = '#fafafa';
+    dropzone.style.borderColor = '#bbb';
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.style = '';
+    const dt = new DataTransfer();
+    for (let f of e.dataTransfer.files) dt.items.add(f);
+    fileInput.files = dt.files;
+    updateList();
+  });
+
+  fileInput.addEventListener('change', updateList);
+
+  function updateList() {
+    fileList.innerHTML = '';
+    for (let f of fileInput.files) {
+      const li = document.createElement('li');
+      li.innerText = f.name + ' (' + Math.round(f.size/1024) + ' KB)';
+      fileList.appendChild(li);
+    }
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: fd
+    });
+
+    if (res.ok) {
+      successBox.style.display = 'block';
+      form.reset();
+      fileList.innerHTML = '';
+    } else {
+      alert('提交失败，请稍后再试。');
+    }
+  });
+</script>
