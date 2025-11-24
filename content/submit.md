@@ -1,6 +1,5 @@
 ---
 title: "投稿"
-url: "/submit/"
 menu:
   main:
     weight: 40

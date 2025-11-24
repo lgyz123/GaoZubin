@@ -8,8 +8,3 @@ title = '高祖兵山水画廊'
 
 [params.social]
   douyin = "https://www.douyin.com/user/48740764510"
-
-[[menu.main]]
-  name = "投稿"
-  url  = "/submit.html"
-  weight = 40
