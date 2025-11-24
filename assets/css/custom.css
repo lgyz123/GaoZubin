@@ -266,3 +266,109 @@ main.album-single {
 
 .album-meta-row dt
 
+/* ===== 页脚美化 ===== */
+
+.site-footer {
+  background-color: rgba(250, 245, 235, 0.95);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 1.5rem 1.5rem 2rem;
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 3rem;
+}
+
+.site-footer .footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  flex: 1 1 220px;
+}
+
+.footer-brand {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  color: #3f2816;
+}
+
+.footer-copy {
+  margin: 0;
+  color: #777;
+}
+
+.footer-note {
+  margin: 0;
+  line-height: 1.6;
+  color: #666;
+}
+
+.footer-center span {
+  margin: 0 0.25rem;
+}
+
+.footer-center a {
+  text-decoration: none;
+  color: #5a4027;
+}
+
+.footer-center a:hover {
+  text-decoration: underline;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-social {
+  margin-bottom: 0.4rem;
+}
+
+.footer-social .icon-douyin {
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+  display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+  transition: transform 0.15s ease-out, filter 0.15s ease-out;
+}
+
+.footer-social .icon-douyin:hover {
+  transform: translateY(-1px) scale(1.03);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.footer-admin {
+  margin: 0;
+}
+
+.footer-admin a {
+  font-size: 0.8rem;
+  color: #8a6a43;
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.footer-admin a:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+/* 小屏幕下居中显示 */
+@media (max-width: 768px) {
+  .site-footer .footer-inner {
+    text-align: center;
+  }
+
+  .footer-right {
+    text-align: center;
+  }
+}
