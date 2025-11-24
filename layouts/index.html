@@ -1,28 +1,46 @@
 {{ define "main" }}
-<main class="albums">
-  <div class="albums-header">
-    <h1>{{ .Site.Title }}</h1>
-    <a class="admin-link" href="/admin/" target="_blank" rel="noopener">
-      管理者登录
-    </a>
-  </div>
+<main class="home">
 
-  <div class="album-grid">
-    {{ range $album := where .Site.RegularPages "Section" "albums" }}
-      {{ $covers := where $album.Params.photos "cover" true }}
-      {{ $cover := cond (gt (len $covers) 0) (index $covers 0) nil }}
+  <!-- 顶部 Hero 区 -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>高祖兵 · 山水画廊</h1>
+        <p class="hero-subtitle">
+          记录古风山水画作，便于欣赏与整理。部分作品支持咨询与收藏。
+        </p>
+      </div>
 
-      <article class="album-card">
-        <a href="{{ $album.RelPermalink }}">
-          {{ with $cover }}
-            <img src="{{ .image | relURL }}" alt="{{ .title }}" />
-          {{ end }}
-          <h2>{{ $album.Title }}</h2>
-          <p>{{ $album.Params.description }}</p>
-        </a>
-      </article>
-    {{ end }}
-  </div>
+      <!-- 如果你有一张代表作品，可以在这里固定写路径 -->
+      <div class="hero-image-wrap">
+        <img src="/uploads/shanshui-qiu-01.jpg" alt="山水画廊代表作品">
+      </div>
+    </div>
+  </section>
+
+  <!-- 相册网格 -->
+  <section class="albums-section">
+    <h2>画册一览</h2>
+
+    <div class="album-grid">
+      {{ range where .Site.RegularPages "Section" "albums" }}
+        {{ $covers := where .Params.photos "cover" true }}
+        {{ $cover := cond (gt (len $covers) 0) (index $covers 0) nil }}
+
+        <article class="album-card">
+          <a href="{{ .RelPermalink }}">
+            {{ with $cover }}
+              <img src="{{ .image | relURL }}" alt="{{ .title }}">
+            {{ end }}
+            <h3>{{ .Title }}</h3>
+            {{ with .Params.description }}
+              <p>{{ . }}</p>
+            {{ end }}
+          </a>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
 </main>
 {{ end }}
-
