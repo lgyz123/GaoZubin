@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>画廊后台（简易版）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; max-width: 800px; margin: 40px auto;">
+  <h1>画廊后台（简易版）</h1>
+
+  <section id="login-section">
+    <h2>登录</h2>
+    <label>用户名：<input id="login-user" type="text"></label><br>
+    <label>密码：<input id="login-pass" type="password"></label><br>
+    <button id="login-btn">登录</button>
+    <div id="login-msg" style="color:red;margin-top:8px;"></div>
+  </section>
+
+  <section id="form-section" style="display:none;margin-top:24px;">
+    <h2>新建 / 覆盖画册</h2>
+    <label>slug（文件名，不含.md）：<br>
+      <input id="f-slug" style="width:100%;">
+    </label><br><br>
+
+    <label>标题：<br>
+      <input id="f-title" style="width:100%;">
+    </label><br><br>
+
+    <label>简介：<br>
+      <textarea id="f-desc" style="width:100%;height:80px;"></textarea>
+    </label><br><br>
+
+    <label>分类（逗号分隔）：<br>
+      <input id="f-cats" style="width:100%;" value="山水">
+    </label><br><br>
+
+    <label>图片列表（简单一点：每行：image,title,desc,cover[true/false]）：<br>
+      <textarea id="f-photos" style="width:100%;height:120px;" placeholder="/uploads/xxx.jpg,标题,说明,true"></textarea>
+    </label><br><br>
+
+    <button id="save-btn">保存到 GitHub</button>
+    <div id="save-msg" style="margin-top:8px;color:green;"></div>
+  </section>
+
+  <script>
+    const API_BASE = "https://cms-api.gaozubing.cn"; // 你的 Worker 子域
+    let token = null;
+
+    document.getElementById('login-btn').onclick = async () => {
+      const u = document.getElementById('login-user').value;
+      const p = document.getElementById('login-pass').value;
+      const msg = document.getElementById('login-msg');
+      msg.textContent = '';
+
+      const res = await fetch(API_BASE + "/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ username: u, password: p })
+      });
+
+      if (!res.ok) {
+        msg.textContent = "登录失败";
+        return;
+      }
+      const data = await res.json();
+      token = data.token;
+      document.getElementById('login-section').style.display = "none";
+      document.getElementById('form-section').style.display = "block";
+    };
+
+    document.getElementById('save-btn').onclick = async () => {
+      const slug = document.getElementById('f-slug').value.trim();
+      const title = document.getElementById('f-title').value.trim();
+      const desc = document.getElementById('f-desc').value.trim();
+      const cats = document.getElementById('f-cats').value.split(',').map(s => s.trim()).filter(Boolean);
+      const photosRaw = document.getElementById('f-photos').value.split('\n').map(s => s.trim()).filter(Boolean);
+
+      const photos = photosRaw.map(line => {
+        const [image, t, d, cover] = line.split(',').map(s => (s || '').trim());
+        return {
+          image,
+          title: t,
+          desc: d,
+          cover: cover === 'true',
+        };
+      });
+
+      const res = await fetch(API_BASE + "/save-album", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+          slug,
+          title,
+          description: desc,
+          categories: cats,
+          photos
+        })
+      });
+
+      const msg = document.getElementById('save-msg');
+      if (res.ok) {
+        msg.style.color = "green";
+        msg.textContent = "已保存到 GitHub，等 Cloudflare Pages 自动重新构建。";
+      } else {
+        const text = await res.text();
+        msg.style.color = "red";
+        msg.textContent = "保存失败：" + text;
+      }
+    };
+  </script>
+</body>
+</html>
