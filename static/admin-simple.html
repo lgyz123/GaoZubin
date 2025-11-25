@@ -43,30 +43,36 @@
   </section>
 
   <script>
-    const API_BASE = "https://cms-api.gaozubing.cn"; // 你的 Worker 子域
-    let token = null;
+    const API_BASE = "https://cms-api.gaozubing.cn"; // 一定要跟 Worker Route 一致
 
     document.getElementById('login-btn').onclick = async () => {
-      const u = document.getElementById('login-user').value;
-      const p = document.getElementById('login-pass').value;
-      const msg = document.getElementById('login-msg');
-      msg.textContent = '';
+    const u = document.getElementById('login-user').value;
+    const p = document.getElementById('login-pass').value;
+    const msg = document.getElementById('login-msg');
+    msg.textContent = '';
 
-      const res = await fetch(API_BASE + "/login", {
+    try {
+        const res = await fetch(API_BASE + "/login", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ username: u, password: p })
-      });
+        });
 
-      if (!res.ok) {
-        msg.textContent = "登录失败";
+        if (!res.ok) {
+        msg.textContent = "登录失败（用户名或密码错误，或后端返回 " + res.status + "）";
         return;
-      }
-      const data = await res.json();
-      token = data.token;
-      document.getElementById('login-section').style.display = "none";
-      document.getElementById('form-section').style.display = "block";
-    };
+        }
+
+        const data = await res.json();
+        token = data.token;
+        document.getElementById('login-section').style.display = "none";
+        document.getElementById('form-section').style.display = "block";
+    } catch (e) {
+        console.error(e);
+        msg.textContent = "网络错误或 API 无法访问，请检查域名 / Worker 配置。";
+    }
+};
+
 
     document.getElementById('save-btn').onclick = async () => {
       const slug = document.getElementById('f-slug').value.trim();
