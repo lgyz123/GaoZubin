@@ -1,11 +1,16 @@
 {{ define "main" }}
 <main class="album">
+
+  <!-- 标题 -->
   <h1>{{ .Title }}</h1>
+
+  <!-- 描述 -->
   {{ with .Params.description }}
     <p class="album-desc">{{ . }}</p>
   {{ end }}
 
-    <div class="photo-grid">
+  <!-- 图片网格 -->
+  <div class="photo-grid">
     {{ range .Params.photos }}
       {{ $src := .image }}
       {{ if not (hasPrefix $src "/") }}
@@ -13,7 +18,14 @@
       {{ end }}
 
       <figure class="photo-item">
-        <img src="{{ $src | relURL }}" alt="{{ .title }}">
+        <!-- Lightbox 链接 -->
+        <a href="{{ $src | relURL }}" 
+           class="glightbox" 
+           data-gallery="album">
+          <img src="{{ $src | relURL }}" alt="{{ .title }}">
+        </a>
+
+        <!-- 文字说明 -->
         {{ if or .title .desc }}
           <figcaption>
             {{ if .title }}<strong>{{ .title }}</strong>{{ end }}
@@ -21,23 +33,26 @@
           </figcaption>
         {{ end }}
       </figure>
+
     {{ end }}
   </div>
-<script src="https://giscus.app/client.js"
-        data-repo="lgyz123/GaoZubin"
-        data-repo-id="R_kgDOQbM8gg"
-        data-category="[在此输入分类名]"
-        data-category-id="[在此输入分类 ID]"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>
+
+  <!-- Giscus 评论 -->
+  <script src="https://giscus.app/client.js"
+          data-repo="lgyz123/GaoZubin"
+          data-repo-id="R_kgDOQbM8gg"
+          data-category="[在此输入分类名]"
+          data-category-id="[在此输入分类 ID]"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          crossorigin="anonymous"
+          async>
+  </script>
+
 </main>
 {{ end }}
-

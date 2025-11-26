@@ -362,6 +362,11 @@ main.album-single {
   opacity: 1;
 }
 
+.glightbox-container .gslide-image img {
+  border-radius: 8px !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
 /* 小屏幕下居中显示 */
 @media (max-width: 768px) {
   .site-footer .footer-inner {
