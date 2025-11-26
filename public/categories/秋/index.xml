@@ -1,3 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>秋 on 高祖兵山水画廊</title><link>https://gaozubin.cn/categories/%E7%A7%8B/</link><description>Recent content in 秋 on 高祖兵山水画廊</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://gaozubin.cn/categories/%E7%A7%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>水墨山水・秋</title><link>https://gaozubin.cn/shanshui-qiu/</link><pubDate>Tue, 12 Aug 2025 00:00:00 +0000</pubDate><guid>https://gaozubin.cn/shanshui-qiu/</guid><media:content url="https://gaozubin.cn/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG" type="image/jpeg"/><description>
-&lt;img src="https://gaozubin.cn/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG" /&gt;
-&lt;p&gt;以淡墨、留白为主的山水小品，适合客厅、书房悬挂。&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>秋 on 高祖兵山水画廊</title>
+    <link>https://gaozubing.cn/categories/%E7%A7%8B/</link>
+    <description>Recent content in 秋 on 高祖兵山水画廊</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 12 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://gaozubing.cn/categories/%E7%A7%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>水墨山水・秋</title>
+      <link>https://gaozubing.cn/shanshui-qiu/</link>
+      <pubDate>Tue, 12 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>https://gaozubing.cn/shanshui-qiu/</guid>
+        <media:content url="https://gaozubing.cn/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG" type="image/jpeg"/>
+        <description>
+          &lt;img src=&quot;https://gaozubing.cn/shanshui-qiu/shanshui-qiu-01_hu_ce39789ea352f058.JPG&quot; /&gt;
+          &lt;p&gt;以淡墨、留白为主的山水小品，适合客厅、书房悬挂。&lt;/p&gt;
+        </description></item>
+  </channel>
+</rss>

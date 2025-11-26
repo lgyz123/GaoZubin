@@ -1,8 +1,10 @@
 backend:
-  name: git        # 本地 git 仓库
+  name: github        # 本地 git 仓库
+  repo: lgyz123/GaoZubin
   branch: main     # 你的主分支名
+  base_url: https://sveltia-cms-auth.guanyizhaoian.workers.dev
 
-local_backend: true
+site_url: https://gaozubing.cn
 media_folder: "static/uploads"   # 图片真实存放位置
 public_folder: "/uploads"        # 前端访问路径
 
