@@ -1,0 +1,34 @@
+backend:
+  name: github        # 本地 git 仓库
+  repo: lgyz123/GaoZubin
+  branch: main     # 你的主分支名
+  base_url: https://sveltia-cms-auth.guanyizhaoian.workers.dev
+
+site_url: https://gaozubing.cn
+media_folder: "static/uploads"   # 图片真实存放位置
+public_folder: "/uploads"        # 前端访问路径
+
+collections:
+  - name: "albums"
+    label: "画册"
+    label_singular: "画册"
+    folder: "content/albums"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    path: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "日期", name: "date", widget: "datetime" }
+      - { label: "分类", name: "categories", widget: "list", default: ["山水"] }
+      - { label: "简介", name: "description", widget: "text", required: false }
+      - label: "图片列表"
+        name: "photos"
+        widget: "list"
+        summary: "{{fields.title}}"
+        fields:
+          - { label: "图片文件", name: "image", widget: "image" }
+          - { label: "标题", name: "title", widget: "string", required: false }
+          - { label: "说明", name: "desc", widget: "text", required: false }
+          - { label: "设为封面", name: "cover", widget: "boolean", default: false, required: false }
+
