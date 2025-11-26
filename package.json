@@ -21,4 +21,10 @@
   "devDependencies": {
     "decap-server": "^3.4.0"
   }
+  {
+  "scripts": {
+    "sync-albums": "python3 tools/sync_albums.py",
+    "build": "npm run sync-albums && hugo"
+  }
+}
 }
