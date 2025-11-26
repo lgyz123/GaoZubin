@@ -2,7 +2,7 @@
 <main class="albums">
   <h1>{{ .Title }}</h1>
 
-  <div class="album-grid">
+    <div class="album-grid">
     {{ range .Pages }}
       {{ $covers := where .Params.photos "cover" true }}
       {{ $cover := cond (gt (len $covers) 0) (index $covers 0) nil }}
@@ -10,7 +10,11 @@
       <article class="album-card">
         <a href="{{ .RelPermalink }}">
           {{ with $cover }}
-            <img src="{{ .image | relURL }}" alt="{{ .title }}" />
+            {{ $src := .image }}
+            {{ if not (hasPrefix $src "/") }}
+              {{ $src = printf "/uploads/albums/%s" $src }}
+            {{ end }}
+            <img src="{{ $src | relURL }}" alt="{{ .title }}" />
           {{ end }}
           <h2>{{ .Title }}</h2>
           <p>{{ .Params.description }}</p>
