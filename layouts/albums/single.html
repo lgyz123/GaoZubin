@@ -5,10 +5,15 @@
     <p class="album-desc">{{ . }}</p>
   {{ end }}
 
-  <div class="photo-grid">
+    <div class="photo-grid">
     {{ range .Params.photos }}
+      {{ $src := .image }}
+      {{ if not (hasPrefix $src "/") }}
+        {{ $src = printf "/uploads/albums/%s" $src }}
+      {{ end }}
+
       <figure class="photo-item">
-        <img src="{{ .image | relURL }}" alt="{{ .title }}">
+        <img src="{{ $src | relURL }}" alt="{{ .title }}">
         {{ if or .title .desc }}
           <figcaption>
             {{ if .title }}<strong>{{ .title }}</strong>{{ end }}
