@@ -29,7 +29,11 @@
           <article class="album-card">
             <a href="{{ .RelPermalink }}">
               {{ with $cover }}
-                <img src="{{ .image | relURL }}" alt="{{ .title }}">
+                {{ $src := .image }}
+                {{ if not (hasPrefix $src "/") }}
+                  {{ $src = printf "/uploads/albums/%s" $src }}
+                {{ end }}
+                <img src="{{ $src | relURL }}" alt="{{ .title }}">
               {{ end }}
               <h3>{{ .Title }}</h3>
               {{ with .Params.description }}
@@ -40,6 +44,7 @@
         {{ end }}
       </div>
     </section>
+
   </div>
 {{ end }}
 
