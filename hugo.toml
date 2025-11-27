@@ -5,6 +5,7 @@ title = '高祖兵山水画廊'
 [params]
 	defaultTheme = 'default'
 	customCSS = ["css/custom.css"]
-
+	artistName = "高祖兵"
+	artistBio  = "高祖兵，生于河南罗山，长期研习传统山水画，擅长以淡墨渲染层峦叠嶂与云烟流动，其作品多取材于川蜀与江南山川景致。"
 [params.social]
   douyin = "https://www.douyin.com/user/48740764510"

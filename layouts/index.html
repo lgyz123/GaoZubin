@@ -8,6 +8,9 @@
           <p class="hero-subtitle">
             记录古风山水画作，便于欣赏与整理。部分作品支持咨询与收藏。
           </p>
+          {{ with .Site.Params.artistBio }}
+            <a href="/about.md" class="site-artist-bio">{{ . }}</a>
+          {{ end }}
         </div>
 
         <!-- 代表作品封面 -->

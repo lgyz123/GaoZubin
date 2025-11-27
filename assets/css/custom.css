@@ -367,6 +367,12 @@ main.album-single {
   box-shadow: 0 12px 32px rgba(0,0,0,0.4);
 }
 
+.hero-artist-bio {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #5b4630;
+}
+
 /* 小屏幕下居中显示 */
 @media (max-width: 768px) {
   .site-footer .footer-inner {
