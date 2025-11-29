@@ -6,7 +6,7 @@
     {{ range .Pages }}
       {{/* 仿照 albums/list.html 的封面逻辑，但先判断是否有 photos */}}
       {{ $photos := .Params.photos }}
-      {{ $cover := nil }}
+      {{ $cover := "" }}
 
       {{ if $photos }}
         {{ $cover = index $photos 0 }}
