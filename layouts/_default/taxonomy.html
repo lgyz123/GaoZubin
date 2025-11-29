@@ -4,18 +4,40 @@
 
   <div class="album-grid">
     {{ range .Pages }}
-      {{ $covers := where .Params.photos "cover" true }}
-      {{ $cover := cond (gt (len $covers) 0) (index $covers 0) nil }}
-      <article class="album-card">
+      {{/* 仿照 albums/list.html 的封面逻辑，但先判断是否有 photos */}}
+      {{ $photos := .Params.photos }}
+      {{ $cover := nil }}
+
+      {{ if $photos }}
+        {{ $cover = index $photos 0 }}
+        {{ $covers := where $photos "cover" true }}
+        {{ if gt (len $covers) 0 }}
+          {{ $cover = index $covers 0 }}
+        {{ end }}
+      {{ end }}
+
+      {{/* 取分类信息，兼容 categories / category */}}
+      {{ $catsThis := .Params.categories | default (slice .Params.category) }}
+      {{ $catStr := delimit $catsThis "," }}
+
+      <article class="album-card"
+               data-categories="{{ $catStr | lower }}">
         <a href="{{ .RelPermalink }}">
           {{ with $cover }}
-            <img src="{{ .image | relURL }}" alt="{{ .title }}" />
+            {{ $src := .image }}
+            {{ if not (hasPrefix $src "/") }}
+              {{ $src = printf "/uploads/albums/%s" $src }}
+            {{ end }}
+            <img src="{{ $src | relURL }}" alt="{{ .title }}" />
           {{ end }}
+
           <h2>{{ .Title }}</h2>
+
           <p class="album-meta">
             {{ with .Params.categories }}{{ delimit . " / " }}{{ end }}
             {{ with .Params.category }}{{ . }}{{ end }}
           </p>
+
           <p>{{ .Params.description }}</p>
         </a>
       </article>
