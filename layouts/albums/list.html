@@ -14,23 +14,42 @@
     <div class="album-filters">
       <button class="filter-btn is-active" data-category="all">全部</button>
 
-      {{/* 从所有 albums 里收集分类关键词，兼容 categories / category 两种写法 */}}
-      {{ $cats := slice }}
+      {{/* 拆分所有分类关键词：支持 "山水/云雾/写意" 或 "山水 / 云雾 / 写意" */}}
+
+      {{ $raw := slice }}
+
       {{ range where .Site.RegularPages "Section" "albums" }}
-        {{ with .Params.categories }}
-          {{ range . }}
-            {{ $cats = $cats | append . }}
+        {{ $c := .Params.categories | default (slice .Params.category) }}
+
+        {{/* 如果是字符串，把它变成单元素数组 */}}
+        {{ if (reflect.IsString $c) }}
+          {{ $c = slice $c }}
+        {{ end }}
+
+        {{/* 遍历每个分类字符串，自动用 / 或 , 拆开 */}}
+        {{ range $cItem := $c }}
+          {{/* 支持 "A/B/C" */}}
+          {{ $split := split (replace $cItem " " "") "/" }}
+
+          {{ range $s := $split }}
+            {{ if ne $s "" }}
+              {{ $raw = $raw | append $s }}
+            {{ end }}
           {{ end }}
         {{ end }}
-        {{ with .Params.category }}
-          {{ $cats = $cats | append . }}
-        {{ end }}
       {{ end }}
-      {{ $cats = uniq $cats | sort }}
 
-      {{ range $cat := $cats }}
-        <button class="filter-btn" data-category="{{ $cat | lower }}">{{ $cat }}</button>
-      {{ end }}
+      {{/* 去重 + 排序 */}}
+      {{ $cats := uniq $raw | sort }}
+
+      <div class="album-filters">
+        <button class="filter-btn is-active" data-category="all">全部</button>
+
+        {{ range $cat := $cats }}
+          <button class="filter-btn" data-category="{{ $cat | lower }}">{{ $cat }}</button>
+        {{ end }}
+      </div>
+
     </div>
   </section>
 
@@ -43,9 +62,28 @@
         {{ $cover = index $covers 0 }}
       {{ end }}
 
-      {{/* 取当前作品的分类列表，兼容 categories: [...] 和 category: "xxx" */}}
-      {{ $catsThis := .Params.categories | default (slice .Params.category) }}
-      {{ $catStr := delimit $catsThis "," }}
+      {{/* 取当前作品的分类并拆开 */}}
+
+      {{ $c := .Params.categories | default (slice .Params.category) }}
+
+      {{ if (reflect.IsString $c) }}
+        {{ $c = slice $c }}
+      {{ end }}
+
+      {{ $raw := slice }}
+
+      {{ range $cItem := $c }}
+        {{/* 去掉空格再按 / 拆分 */}}
+        {{ $split := split (replace $cItem " " "") "/" }}
+        {{ range $s := $split }}
+          {{ if ne $s "" }}
+            {{ $raw = $raw | append $s }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+
+      {{ $catStr := delimit (uniq $raw) "," }}
+
 
       <article class="album-card"
                data-categories="{{ $catStr | lower }}">

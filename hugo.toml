@@ -16,15 +16,10 @@ title = '高祖兵山水画廊'
     weight = 10
 
   [[menus.main]]
-    name = "关于画家"
-    url  = "/about/"
-    weight = 20
-
-  [[menus.main]]
     name = "联系・购买"
     url  = "/contact/"
     weight = 30
-	
+
 [params]
 	defaultTheme = 'default'
 	customCSS = ["css/custom.css"]
