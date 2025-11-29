@@ -52,13 +52,6 @@
         {{ end }}
 
 
-      <div class="album-filters">
-        <button class="filter-btn is-active" data-category="all">全部</button>
-
-        {{ range $cat := $cats }}
-          <button class="filter-btn" data-category="{{ $cat | lower }}">{{ $cat }}</button>
-        {{ end }}
-      </div>
 
     </div>
   </section>
