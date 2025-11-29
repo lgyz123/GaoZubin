@@ -2,6 +2,38 @@
 <main class="albums">
   <h1>{{ .Title }}</h1>
 
+  <!-- 工具栏：搜索 + 分类按钮 -->
+  <section class="album-tools">
+    <div class="album-search-wrapper">
+      <input id="album-search"
+             type="search"
+             placeholder="搜索标题 / 分类 / 描述…"
+             aria-label="搜索作品" />
+    </div>
+
+    <div class="album-filters">
+      <button class="filter-btn is-active" data-category="all">全部</button>
+
+      {{/* 从所有 albums 里收集分类关键词，兼容 categories / category 两种写法 */}}
+      {{ $cats := slice }}
+      {{ range where .Site.RegularPages "Section" "albums" }}
+        {{ with .Params.categories }}
+          {{ range . }}
+            {{ $cats = $cats | append . }}
+          {{ end }}
+        {{ end }}
+        {{ with .Params.category }}
+          {{ $cats = $cats | append . }}
+        {{ end }}
+      {{ end }}
+      {{ $cats = uniq $cats | sort }}
+
+      {{ range $cat := $cats }}
+        <button class="filter-btn" data-category="{{ $cat | lower }}">{{ $cat }}</button>
+      {{ end }}
+    </div>
+  </section>
+
   <div class="album-grid">
     {{ range .Pages }}
       {{ $photos := .Params.photos }}
@@ -11,7 +43,12 @@
         {{ $cover = index $covers 0 }}
       {{ end }}
 
-      <article class="album-card">
+      {{/* 取当前作品的分类列表，兼容 categories: [...] 和 category: "xxx" */}}
+      {{ $catsThis := .Params.categories | default (slice .Params.category) }}
+      {{ $catStr := delimit $catsThis "," }}
+
+      <article class="album-card"
+               data-categories="{{ $catStr | lower }}">
         <a href="{{ .RelPermalink }}">
           {{ with $cover }}
             {{ $src := .image }}
@@ -20,14 +57,63 @@
             {{ end }}
             <img src="{{ $src | relURL }}" alt="{{ .title }}" />
           {{ end }}
+
           <h2>{{ .Title }}</h2>
+
+          {{/* 分类小字：有就显示，没有就空着 */}}
+          <p class="album-meta">
+            {{ with .Params.categories }}{{ delimit . " / " }}{{ end }}
+            {{ with .Params.category }}{{ . }}{{ end }}
+          </p>
+
           <p>{{ .Params.description }}</p>
         </a>
       </article>
     {{ end }}
   </div>
 </main>
+
+<!-- 简单前端搜索 + 分类过滤 -->
+<script>
+(function() {
+  var searchInput   = document.getElementById('album-search');
+  var filterButtons = document.querySelectorAll('.filter-btn');
+  var cards         = document.querySelectorAll('.album-card');
+
+  function applyFilter() {
+    var q   = (searchInput && searchInput.value || '').toLowerCase();
+    var activeBtn = document.querySelector('.filter-btn.is-active');
+    var cat = activeBtn ? activeBtn.getAttribute('data-category') : 'all';
+
+    cards.forEach(function(card) {
+      var text = card.innerText.toLowerCase();
+      var catsAttr = (card.getAttribute('data-categories') || '').toLowerCase();
+      var cats = catsAttr.split(',');
+
+      var matchCat = (cat === 'all') || cats.some(function(c) {
+        return c.trim() === cat;
+      });
+      var matchText = !q || text.indexOf(q) !== -1;
+
+      card.style.display = (matchCat && matchText) ? '' : 'none';
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyFilter);
+  }
+
+  filterButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filterButtons.forEach(function(b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      applyFilter();
+    });
+  });
+})();
+</script>
 {{ end }}
+
 
 
 {{ define "footer" }}

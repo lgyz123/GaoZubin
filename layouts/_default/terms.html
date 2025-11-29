@@ -1,0 +1,15 @@
+{{ define "main" }}
+<main class="taxonomy-terms">
+  <h1>{{ .Title }}</h1>
+
+  <ul class="term-list">
+    {{ range .Data.Terms.Alphabetical }}
+      <li class="term-item">
+        <a href="{{ .Page.Permalink }}">
+          {{ .Page.Title }} <span class="term-count">({{ .Count }})</span>
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</main>
+{{ end }}
