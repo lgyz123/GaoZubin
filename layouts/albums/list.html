@@ -2,104 +2,95 @@
 <main class="albums">
   <h1>{{ .Title }}</h1>
 
-  <!-- 工具栏：搜索 + 分类按钮 -->
+  <!-- 搜索栏 -->
   <section class="album-tools">
     <div class="album-search-wrapper">
-      <input id="album-search"
-             type="search"
-             placeholder="搜索标题 / 分类 / 描述…"
-             aria-label="搜索作品" />
+      <input id="album-search" type="search"
+             placeholder="搜索标题 / 分类 / 描述…" aria-label="搜索作品" />
     </div>
+
+    {{/* =======================================
+         收集所有分类，合并拆分
+       ======================================= */}}
+
+    {{ $rawCats := slice }}
+
+    {{ range where .Site.RegularPages "Section" "albums" }}
+      {{ with .Params.categories }}
+        {{ range . }}{{ $rawCats = $rawCats | append . }}{{ end }}
+      {{ end }}
+      {{ with .Params.category }}
+        {{ $rawCats = $rawCats | append . }}
+      {{ end }}
+    {{ end }}
+
+    {{/* 把所有分隔符替换成逗号，再 split */}}
+
+    {{ $keywords := slice }}
+
+    {{ range $rawCats }}
+      {{ $clean := replaceRE "[/，,;；]+" "," . }}
+      {{ $parts := split $clean "," }}
+
+      {{ range $p := $parts }}
+        {{ if and $p (ne $p "") }}
+          {{ $keywords = $keywords | append $p }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+    {{ $cats := uniq $keywords | sort }}
 
     <div class="album-filters">
       <button class="filter-btn is-active" data-category="all">全部</button>
 
-        {{/* —— 收集全站分类 —— */}}
-        {{ $rawCats := slice }}
-
-        {{ range where .Site.RegularPages "Section" "albums" }}
-          {{ with .Params.categories }}
-            {{ range . }}
-              {{ $rawCats = $rawCats | append . }}
-            {{ end }}
-          {{ end }}
-
-          {{ with .Params.category }}
-            {{ $rawCats = $rawCats | append . }}
-          {{ end }}
-        {{ end }}
-
-        {{/* —— 拆分 "山水/云雾/写意" → ["山水","云雾","写意"] —— */}}
-        {{ $keywords := slice }}
-
-        {{ range $rawCats }}
-          {{ $clean := replace . " " "" }}       {{/* 去掉所有空格 */}}
-          {{ $parts := split $clean "/" }}       {{/* 按 / 拆分 */}}
-
-          {{ range $p := $parts }}
-            {{ if ne $p "" }}
-              {{ $keywords = $keywords | append $p }}
-            {{ end }}
-          {{ end }}
-        {{ end }}
-
-        {{/* —— 去重 + 排序 —— */}}
-        {{ $cats := uniq $keywords | sort }}
-
-        {{/* —— 输出按钮 —— */}}
-        {{ range $cat := $cats }}
-          <button class="filter-btn" data-category="{{ $cat | lower }}">{{ $cat }}</button>
-        {{ end }}
-
-
-
+      {{ range $cat := $cats }}
+        <button class="filter-btn" data-category="{{ $cat | lower }}">{{ $cat }}</button>
+      {{ end }}
     </div>
   </section>
 
+
+  <!-- 图片网格 -->
   <div class="album-grid">
     {{ range .Pages }}
+
+      {{/* 封面 */}}
       {{ $photos := .Params.photos }}
       {{ $cover := index $photos 0 }}
       {{ $covers := where $photos "cover" true }}
-      {{ if gt (len $covers) 0 }}
-        {{ $cover = index $covers 0 }}
-      {{ end }}
+      {{ if gt (len $covers) 0 }}{{ $cover = index $covers 0 }}{{ end }}
 
-      {{/* —— 取当前作品原始分类 —— */}}
+      {{/* 当前作品分类 */}}
       {{ $raw := slice }}
 
       {{ with .Params.categories }}
-        {{ range . }}
-          {{ $raw = $raw | append . }}
-        {{ end }}
+        {{ range . }}{{ $raw = $raw | append . }}{{ end }}
       {{ end }}
 
       {{ with .Params.category }}
         {{ $raw = $raw | append . }}
       {{ end }}
 
-      {{/* —— 拆分 —— */}}
+      {{/* 同样的方法拆分 */}}
       {{ $keys := slice }}
 
       {{ range $raw }}
-        {{ $clean := replace . " " "" }}
-        {{ $parts := split $clean "/" }}
+        {{ $clean := replaceRE "[/，,;；]+" "," . }}
+        {{ $parts := split $clean "," }}
 
         {{ range $p := $parts }}
-          {{ if ne $p "" }}
+          {{ if and $p (ne $p "") }}
             {{ $keys = $keys | append $p }}
           {{ end }}
         {{ end }}
       {{ end }}
 
-      {{/* —— 去重并输出逗号分隔字符串，给 JS 用 —— */}}
       {{ $catStr := delimit (uniq $keys) "," }}
 
-
-
-      <article class="album-card"
-               data-categories="{{ $catStr | lower }}">
+      <article class="album-card" data-categories="{{ $catStr | lower }}">
         <a href="{{ .RelPermalink }}">
+
           {{ with $cover }}
             {{ $src := .image }}
             {{ if not (hasPrefix $src "/") }}
@@ -110,7 +101,6 @@
 
           <h2>{{ .Title }}</h2>
 
-          {{/* 分类小字：有就显示，没有就空着 */}}
           <p class="album-meta">
             {{ with .Params.categories }}{{ delimit . " / " }}{{ end }}
             {{ with .Params.category }}{{ . }}{{ end }}
@@ -119,84 +109,43 @@
           <p>{{ .Params.description }}</p>
         </a>
       </article>
+
     {{ end }}
   </div>
 </main>
 
-<!-- 简单前端搜索 + 分类过滤 -->
+<!-- 搜索 & 分类过滤 -->
 <script>
 (function() {
-  var searchInput   = document.getElementById('album-search');
-  var filterButtons = document.querySelectorAll('.filter-btn');
-  var cards         = document.querySelectorAll('.album-card');
+  const searchInput = document.getElementById('album-search');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.album-card');
 
   function applyFilter() {
-    var q   = (searchInput && searchInput.value || '').toLowerCase();
-    var activeBtn = document.querySelector('.filter-btn.is-active');
-    var cat = activeBtn ? activeBtn.getAttribute('data-category') : 'all';
+    const q = (searchInput && searchInput.value || '').toLowerCase();
+    const active = document.querySelector('.filter-btn.is-active');
+    const cat = active ? active.getAttribute('data-category') : 'all';
 
-    cards.forEach(function(card) {
-      var text = card.innerText.toLowerCase();
-      var catsAttr = (card.getAttribute('data-categories') || '').toLowerCase();
-      var cats = catsAttr.split(',');
+    cards.forEach(card => {
+      const text = card.innerText.toLowerCase();
+      const cats = (card.getAttribute('data-categories') || '').toLowerCase().split(',');
 
-      var matchCat = (cat === 'all') || cats.some(function(c) {
-        return c.trim() === cat;
-      });
-      var matchText = !q || text.indexOf(q) !== -1;
+      const matchCat = (cat === 'all') || cats.includes(cat);
+      const matchText = !q || text.includes(q);
 
       card.style.display = (matchCat && matchText) ? '' : 'none';
     });
   }
 
-  if (searchInput) {
-    searchInput.addEventListener('input', applyFilter);
-  }
+  if (searchInput) searchInput.addEventListener('input', applyFilter);
 
-  filterButtons.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      filterButtons.forEach(function(b) { b.classList.remove('is-active'); });
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('is-active'));
       btn.classList.add('is-active');
       applyFilter();
     });
   });
 })();
 </script>
-{{ end }}
-
-
-
-{{ define "footer" }}
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <p class="footer-brand">高祖兵 · 山水画廊</p>
-        <p class="footer-copy">
-          © {{ now.Year }} Gao Zubing. All rights reserved.
-        </p>
-      </div>
-
-      <div class="footer-center">
-        <p class="footer-note">
-          部分作品接受咨询与收藏，详情可通过抖音或留言联系。*温馨提示：可以点击图片查看大图哦！*
-        </p>
-      </div>
-
-      <div class="footer-right">
-        <div class="footer-social">
-          <a href="https://www.douyin.com/user/48740764510"
-             target="_blank" rel="noopener"
-             title="抖音 · 高祖兵山水">
-            <img src="/icons/douyin.svg"
-                 alt="抖音"
-                 class="icon-douyin">
-          </a>
-        </div>
-
-        <p class="footer-admin">
-          <a href="/admin/">管理者登录</a>
-        </p>
-      </div>
-    </div>
-  </footer>
 {{ end }}
