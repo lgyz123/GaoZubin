@@ -15,7 +15,7 @@
 
         <!-- 代表作品封面 -->
         <div class="hero-image-wrap">
-          <img src="/uploads/风起云涌.JPG" alt="山水画廊代表作品">
+          <img src="/uploads/风起云涌.JPG" alt="高祖兵山水画廊代表作品">
         </div>
       </div>
     </section>
@@ -36,7 +36,7 @@
                 {{ if not (hasPrefix $src "/") }}
                   {{ $src = printf "/uploads/albums/%s" $src }}
                 {{ end }}
-                <img src="{{ $src | relURL }}" alt="{{ .title }}">
+                <img src="{{ $src | relURL }}" alt="{{ .title }}国画 山水画 高祖兵">
               {{ end }}
               <h3>{{ .Title }}</h3>
               {{ with .Params.description }}

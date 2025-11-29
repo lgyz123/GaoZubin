@@ -1,8 +1,8 @@
 baseURL = 'https://gaozubing.cn/'
 languageCode = 'zh-cn'
 theme = 'gallery'
-title = '高祖兵山水画廊'
-
+title = '高祖兵山水画廊 | 古风山水画 | 国画作品展示与收藏'
+description = "高祖兵山水画廊：古风国画、山水画作品展示，原创水墨艺术欣赏与收藏。"
 [menus]
 
   [[menus.main]]
@@ -25,6 +25,7 @@ title = '高祖兵山水画廊'
 	customCSS = ["css/custom.css"]
 	artistName = "高祖兵"
 	artistBio  = "高祖兵，生于河南罗山，长期研习传统山水画，擅长以淡墨渲染层峦叠嶂与云烟流动，其作品多取材于川蜀与江南山川景致。"
+	keywords = ["山水画", "国画", "古风山水", "水墨画", "高祖兵", "中国画"]
 [params.social]
   douyin = "https://www.douyin.com/user/48740764510"
 
