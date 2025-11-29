@@ -14,33 +14,43 @@
     <div class="album-filters">
       <button class="filter-btn is-active" data-category="all">全部</button>
 
-      {{/* 拆分所有分类关键词：支持 "山水/云雾/写意" 或 "山水 / 云雾 / 写意" */}}
+        {{/* —— 收集全站分类 —— */}}
+        {{ $rawCats := slice }}
 
-      {{ $raw := slice }}
+        {{ range where .Site.RegularPages "Section" "albums" }}
+          {{ with .Params.categories }}
+            {{ range . }}
+              {{ $rawCats = $rawCats | append . }}
+            {{ end }}
+          {{ end }}
 
-      {{ range where .Site.RegularPages "Section" "albums" }}
-        {{ $c := .Params.categories | default (slice .Params.category) }}
-
-        {{/* 如果是字符串，把它变成单元素数组 */}}
-        {{ if (reflect.IsString $c) }}
-          {{ $c = slice $c }}
+          {{ with .Params.category }}
+            {{ $rawCats = $rawCats | append . }}
+          {{ end }}
         {{ end }}
 
-        {{/* 遍历每个分类字符串，自动用 / 或 , 拆开 */}}
-        {{ range $cItem := $c }}
-          {{/* 支持 "A/B/C" */}}
-          {{ $split := split (replace $cItem " " "") "/" }}
+        {{/* —— 拆分 "山水/云雾/写意" → ["山水","云雾","写意"] —— */}}
+        {{ $keywords := slice }}
 
-          {{ range $s := $split }}
-            {{ if ne $s "" }}
-              {{ $raw = $raw | append $s }}
+        {{ range $rawCats }}
+          {{ $clean := replace . " " "" }}       {{/* 去掉所有空格 */}}
+          {{ $parts := split $clean "/" }}       {{/* 按 / 拆分 */}}
+
+          {{ range $p := $parts }}
+            {{ if ne $p "" }}
+              {{ $keywords = $keywords | append $p }}
             {{ end }}
           {{ end }}
         {{ end }}
-      {{ end }}
 
-      {{/* 去重 + 排序 */}}
-      {{ $cats := uniq $raw | sort }}
+        {{/* —— 去重 + 排序 —— */}}
+        {{ $cats := uniq $keywords | sort }}
+
+        {{/* —— 输出按钮 —— */}}
+        {{ range $cat := $cats }}
+          <button class="filter-btn" data-category="{{ $cat | lower }}">{{ $cat }}</button>
+        {{ end }}
+
 
       <div class="album-filters">
         <button class="filter-btn is-active" data-category="all">全部</button>
@@ -62,27 +72,36 @@
         {{ $cover = index $covers 0 }}
       {{ end }}
 
-      {{/* 取当前作品的分类并拆开 */}}
-
-      {{ $c := .Params.categories | default (slice .Params.category) }}
-
-      {{ if (reflect.IsString $c) }}
-        {{ $c = slice $c }}
-      {{ end }}
-
+      {{/* —— 取当前作品原始分类 —— */}}
       {{ $raw := slice }}
 
-      {{ range $cItem := $c }}
-        {{/* 去掉空格再按 / 拆分 */}}
-        {{ $split := split (replace $cItem " " "") "/" }}
-        {{ range $s := $split }}
-          {{ if ne $s "" }}
-            {{ $raw = $raw | append $s }}
+      {{ with .Params.categories }}
+        {{ range . }}
+          {{ $raw = $raw | append . }}
+        {{ end }}
+      {{ end }}
+
+      {{ with .Params.category }}
+        {{ $raw = $raw | append . }}
+      {{ end }}
+
+      {{/* —— 拆分 —— */}}
+      {{ $keys := slice }}
+
+      {{ range $raw }}
+        {{ $clean := replace . " " "" }}
+        {{ $parts := split $clean "/" }}
+
+        {{ range $p := $parts }}
+          {{ if ne $p "" }}
+            {{ $keys = $keys | append $p }}
           {{ end }}
         {{ end }}
       {{ end }}
 
-      {{ $catStr := delimit (uniq $raw) "," }}
+      {{/* —— 去重并输出逗号分隔字符串，给 JS 用 —— */}}
+      {{ $catStr := delimit (uniq $keys) "," }}
+
 
 
       <article class="album-card"
