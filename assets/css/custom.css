@@ -477,6 +477,40 @@ footer img[src*="douyin"] {
   font-size: 1.4rem;
 }
 
+/* ======= 顶部导航栏优化（menus.main） ======= */
+
+.site-nav {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.site-nav a {
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: #4a2b18;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.15s ease-out, color 0.15s ease-out;
+}
+
+.site-nav a:hover {
+  background: rgba(74, 43, 24, 0.08);
+  color: #4a2b18;
+}
+
+/* 当前页面高亮 */
+.site-nav .active {
+  background: #4a2b18;
+  color: #fff;
+}
+
+/* 移动端保持主题默认汉堡，不强制横向 */
+@media (max-width: 768px) {
+  .site-nav {
+    display: none;
+  }
+}
 
 /* 小屏幕下居中显示 */
 @media (max-width: 768px) {

@@ -2,6 +2,29 @@ baseURL = 'https://gaozubing.cn/'
 languageCode = 'zh-cn'
 theme = 'gallery'
 title = '高祖兵山水画廊'
+
+[menus]
+
+  [[menus.main]]
+    name = "首页"
+    url  = "/"
+    weight = 1
+
+  [[menus.main]]
+    name = "作品一览"
+    url  = "/albums/"
+    weight = 10
+
+  [[menus.main]]
+    name = "关于画家"
+    url  = "/about/"
+    weight = 20
+
+  [[menus.main]]
+    name = "联系・购买"
+    url  = "/contact/"
+    weight = 30
+	
 [params]
 	defaultTheme = 'default'
 	customCSS = ["css/custom.css"]
